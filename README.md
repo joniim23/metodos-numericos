@@ -1,6 +1,6 @@
 # metodos-numericos
 ## Funcionamiento de biseccion
-Para ver el funcionamiento de biseccion ver el siguiente [link] (https://www.youtube.com/watch?v=0WPixuL6AZU)
+Para ver el funcionamiento de biseccion ver el siguiente [link](https://www.youtube.com/watch?v=0WPixuL6AZU)
 ## Consigna
 se tiene una función f : R-> R continua
 input: dos reales a, b tales que a < b, y tales que f(a)* f(b) < 0, y un real epsilon > 0
