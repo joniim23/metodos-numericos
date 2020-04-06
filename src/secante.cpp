@@ -1,3 +1,4 @@
+/*
 #include <stdio.h>
 #include <math.h>
 
@@ -5,40 +6,6 @@ void valoresIniciales(double *a, double *b, double *epsilon, int *iteraciones);
 double evaluarEn(double x);
 double formula(double n0, double n1);
 double error(double x0, double x1);
-
-int main() {
-
-	printf("La funcion elegida es: 3 * sen(x) + 2\n");
-
-	int i;
-	int iteraciones;
-
-	double a;
-	double b;
-	double c; //Variable temporal usada para las iteraciones, almacena el resultado de la nueva aproximacion
-
-	double epsilon;
-
-	valoresIniciales(&a, &b, &epsilon, &iteraciones);
-
-	for (i = 0; i < iteraciones && error(a, b) > epsilon; i++) {
-
-		c = formula(a, b);
-
-		if (error(c, b) == 0) {
-			printf("La funcion presenta una convergencia fuerte en x = %.15f",
-					c);
-			break;
-		}
-
-		printf("\nx%d = %.15lf\n dif: %.15lf\n\n", i + 2, c, error(c, b));
-
-		a = b;
-		b = c;
-
-	}
-
-}
 
 double formula(double n0, double n1) {
 
@@ -82,3 +49,38 @@ void valoresIniciales(double *a, double *b, double *epsilon, int *iteraciones) {
 
 	printf("\n");
 }
+
+int main() {
+
+	int i;
+	int iteraciones;
+
+	double a;
+	double b;
+	double c; //Variable temporal usada para las iteraciones, almacena el resultado de la nueva aproximacion
+
+	double epsilon;
+
+	printf("La funcion elegida es: 3 * sen(x) + 2\n");
+
+	valoresIniciales(&a, &b, &epsilon, &iteraciones);
+
+	for (i = 0; i < iteraciones && error(a, b) > epsilon; i++) {
+
+		c = formula(a, b);
+
+		if (error(c, b) == 0) {
+			printf("La funcion presenta una convergencia fuerte en x = %.15f",
+					c);
+			break;
+		}
+
+		printf("\nx%d = %.15lf\n dif: %.15lf\n\n", i + 2, c, error(c, b));
+
+		a = b;
+		b = c;
+
+	}
+
+}
+*/
