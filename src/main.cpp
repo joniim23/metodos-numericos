@@ -1,5 +1,9 @@
 #include <iostream>
+#ifdef __linux__
+#include <curses.h>
+#else
 #include <conio.h>
+#endif
 #include "../Include/biseccion.h"
 #include "../Include/funciones_aux.h"
 
@@ -11,6 +15,7 @@ int main() {
 
 	ingresar_valores_iniciales(&x0, &x1, &epsilon, &w);
 
+	/*
 	cout << "Obtuve los siguientes valores" << endl;
 	cout << "X0 = " << x0 << endl;
 	cout << "X1 = " << x1 << endl;
@@ -18,7 +23,10 @@ int main() {
 	cout << "W = " << w << endl;
 
 	cout << "Se utilizara la formula '3 * cos(x) + 2'" << endl;
+	*/
 
-	getch();
+	variante_de_biseccion(x0, x1, epsilon, w);
+
+//	getch();
 	return 0;
 }

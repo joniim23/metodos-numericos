@@ -1,19 +1,26 @@
 #include <iostream>
-#include <conio.h>
 #include <math.h>
+
+#ifdef __linux__
+#include <curses.h>
+#else
+#include <conio.h>
+#endif
+
 
 using namespace std;
 
 float funcionDeEquis(const float x) {
 	float valorDeRetorno = 0;
 
-	valorDeRetorno = (3 * cos( x )) + 2;
-	cout << "La funcion en '" << x << "' retorna el valor " << valorDeRetorno << endl;
+	valorDeRetorno = (3*cos(x))+2;
+//	cout << "La funcion en '" << x << "' retorna el valor " << valorDeRetorno << endl;
 	return valorDeRetorno;
 }
 
 void ingresar_valores_iniciales(float * x0, float * x1, float * epsilon, float * w) {
 
+	float funcionDeX0 = 0, funcionDeX1 = 0;
 	/**
 	 * Verificamos que w esté entre 0 y 1
 	 */
@@ -41,9 +48,12 @@ void ingresar_valores_iniciales(float * x0, float * x1, float * epsilon, float *
 				cout << "X1 debe ser mayor que X0" << endl;
 		} while (*x0 > *x1);
 
-		if (funcionDeEquis(*x0) * funcionDeEquis(*x1) > 0)
+		funcionDeX0 = funcionDeEquis(*x0);
+		funcionDeX1 = funcionDeEquis(*x1);
+
+		if ( funcionDeX0 * funcionDeX1 > 0)
 			cout << " f(x0) * f(x1) debe ser menor que 0" << endl;
-	} while (funcionDeEquis(*x0) * funcionDeEquis(*x1) > 0);
+	} while ( funcionDeX0 * funcionDeX1 > 0);
 
 	/**
 	 * Verificamos epsilon
@@ -64,4 +74,9 @@ int signo(float z) {
 		return 1;
 	else
 		return -1;
+}
+
+void imprimirValoresIteracion(int const iteracionActual, float const x0, float const x1, float const xAux, float const funcionDeXAux) {
+
+	cout << "Iteracion Actual = " << iteracionActual << " | X0 = " << x0 << " | X1 = " << x1 << " | xAuxiliar = " << xAux << " | funcion(xAux) = " << funcionDeXAux << endl;
 }

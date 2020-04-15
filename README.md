@@ -1,6 +1,7 @@
 # metodos-numericos
-## Funcionamiento de biseccion
-Para ver el funcionamiento de biseccion ver el siguiente [link](https://www.youtube.com/watch?v=0WPixuL6AZU)
+## Testing de programa
+Para verificar el resultado del programa usar el siguiente [link](https://planetcalc.com/3717/?license=1)
+
 ## Consigna
 se tiene una función f : R-> R continua
 input: dos reales a, b tales que a < b, y tales que f(a)* f(b) < 0, y un real epsilon > 0
@@ -25,7 +26,33 @@ De no ser así, informará el error, lo mismo ante cualquier otra eventualidad q
 
 La salida del programa podrá ser la estándar, o bien un archivo, a elección de Uds.
 
+## Salida del Programa
+./metodos-numericos</br>
+Ingrese un valor w que este entre 0 y 1</br>
+0.5</br></br>
+Ingrese un valor X0</br>
+-3</br></br>
+Ingrese un valor X1</br>
+1</br></br>
+Ingrese un valor epsilon</br>
+0.01</br></br>
+
+Iteracion Actual = 1 | X0 = -3 | X1 = 1 | xAuxiliar = -1 | funcion(xAux) = 3.62091 </br></br>
+Iteracion Actual = 2 | X0 = -3 | X1 = -1 | xAuxiliar = -2 | funcion(xAux) = 0.751559 </br></br>
+Iteracion Actual = 3 | X0 = -3 | X1 = -2 | xAuxiliar = -2.5 | funcion(xAux) = -0.403431 </br></br>
+Iteracion Actual = 4 | X0 = -2.5 | X1 = -2 | xAuxiliar = -2.25 | funcion(xAux) = 0.115479 </br></br>
+Iteracion Actual = 5 | X0 = -2.5 | X1 = -2.25 | xAuxiliar = -2.375 | funcion(xAux) = -0.160835 </br></br>
+Iteracion Actual = 6 | X0 = -2.375 | X1 = -2.25 | xAuxiliar = -2.3125 | funcion(xAux) = -0.0266352 </br></br>
+Iteracion Actual = 7 | X0 = -2.3125 | X1 = -2.25 | xAuxiliar = -2.28125 | funcion(xAux) = 0.0434668 </br></br>
+Iteracion Actual = 8 | X0 = -2.3125 | X1 = -2.28125 | xAuxiliar = -2.29688 | funcion(xAux) = 0.00817263 </br></br>
+Iteracion Actual = 9 | X0 = -2.3125 | X1 = -2.29688 | xAuxiliar = -2.30469 | funcion(xAux) = -0.0092926 </br></br>
+
+Devolviendo la raiz '-2.30469'.
+
+
 ## Integrantes
+Carunchio Mauricio</br>
+Mansilla Jonathan
 
 ## Fecha de entrega
 20/04/2020 por mail
