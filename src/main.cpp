@@ -27,6 +27,6 @@ int main() {
 
 	variante_de_biseccion(x0, x1, epsilon, w);
 
-//	getch();
+	getch();
 	return 0;
 }
