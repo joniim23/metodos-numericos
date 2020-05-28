@@ -7,4 +7,4 @@ void ingresarMatriz(int matr[][3]);
 void imprimirMatriz(int matr[][3]);
 void imprimirVector(int vect[]);
 void duplicarMatriz(int m1[][3], int m2[][3]);
-
+void duplicarVector(int v1[], int v2[]);

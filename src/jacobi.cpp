@@ -14,11 +14,25 @@ struct EstructuraMayor {
 	int cantidadDeMayores;
 };
 
+bool debug = false;
+
 const int col = 3;
 const int fil = 3;
 int matr[fil][col];
 EstructuraMayor vectorMayorEnCadaFila[col];
 
+/*
+ * Matrices de Jacobi
+ */
+
+int matrizL[fil][col];
+int matrizU[fil][col];
+int matrizLU[fil][col];
+int matrizB[fil][1];
+int matrizD1[fil][col];
+int matrizMenosD1[fil][col];
+int matrizV[fil][1];
+int matrizH[fil][col];
 /*
  * Matrices de prueba
  */
@@ -100,18 +114,38 @@ bool hayPorLoMenosUnMayor(EstructuraMayor vectorColumnaDondeEstaElMayorEnCadaFil
 
 
 void intercambiarFilas(int matr[][col], EstructuraMayor vectorColumnaDondeEstaElMayorEnCadaFila[]) {
-
+	cout << endl;
 	int vectorBackup[col];
 
-
-	for (int k = 0; k < 3; k++) {
-
+	for (int k = 0; k < col; k++) {
 		int filaDondeTieneQueEstarElMayor = vectorColumnaDondeEstaElMayorEnCadaFila[k].columnaDondeEstaElMayor;
 		int mayorEnFila = -1;
 
-		if (filaDondeTieneQueEstarElMayor != k){
+		//Debugging
+		if(debug) {
+			int columnaDondeEstaElMayor[col];
+
+			for (int l = 0; l < col; l++)
+				columnaDondeEstaElMayor[l] = vectorColumnaDondeEstaElMayorEnCadaFila[l].columnaDondeEstaElMayor;
+
+			cout << "Las columnas donde esta el mayor en cada fila es ";
+			imprimirVector(columnaDondeEstaElMayor);
+
+			cout << "filaDondeTieneQueEstarElMayor = " << filaDondeTieneQueEstarElMayor << endl;
+			cout << "k = " << k << endl;
+			cout << "columnaDondeEstaElMayor[k] = " << columnaDondeEstaElMayor[k] << endl;
+			cout << "columnaDondeEstaElMayor[filaDondeTieneQueEstarElMayor] = " << columnaDondeEstaElMayor[filaDondeTieneQueEstarElMayor] << endl << endl;
+		}
+
+		/*
+		 * La siguiente condicion se cumple si:
+		 *  la fila donde tiene que estar el mayor no es la fila actual
+		 *  esa fila donde tiene que estar el mayor es unica
+		 */
+		if (filaDondeTieneQueEstarElMayor != k && vectorColumnaDondeEstaElMayorEnCadaFila[k].cantidadDeMayores == 1) {
 			cout << "Cambiando los datos de la fila " << filaDondeTieneQueEstarElMayor << " por la fila " << k << endl;
-			for (int j = 0; j < 3; j++) {
+
+			for (int j = 0; j < col; j++) {
 				vectorBackup[j] = matr[filaDondeTieneQueEstarElMayor][j];
 
 				matr[filaDondeTieneQueEstarElMayor][j] = matr[k][j];
@@ -126,8 +160,6 @@ void intercambiarFilas(int matr[][col], EstructuraMayor vectorColumnaDondeEstaEl
 			imprimirMatriz(matr);
 		}
 	}
-
-	imprimirMatriz(matr);
 
 }
 
@@ -174,6 +206,9 @@ void obtenerInformacionDeLasFilas(EstructuraMayor vectorMayorEnCadaFila[]) {
 	}
 }
 
+void obtenerMatricesDeJacobi(int matr[][col]) {
+
+}
 
 int jacobi() {
 //	ingresarMatriz(matr);

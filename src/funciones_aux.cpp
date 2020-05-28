@@ -119,3 +119,14 @@ void duplicarMatriz(int m1[][3], int m2[][3]) {
 		for (int j = 0; j < 3; j++)
 			m2[i][j] = m1[i][j];
 }
+
+/*!
+ * v1 -> copia
+ * v2 -> destino
+ * @param v1
+ * @param v2
+ */
+void duplicarVector(int v1[], int v2[]) {
+	for (int i = 0; i < 3; i++)
+		v2[i] = v1[i];
+}
