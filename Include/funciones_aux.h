@@ -5,7 +5,6 @@ void imprimirValoresIteracion(int const iteracionActual, float const x0, float c
 
 void ingresarMatriz(int matr[][3]);
 void imprimirMatriz(int matr[][3]);
-bool esDiagonalDominante(int matr[][3]);
-void intercambiarFilas(int matr[3][3], int vect[3]);
-void transformarADiagonalDominante(int matr[][3]);
+void imprimirVector(int vect[]);
+void duplicarMatriz(int m1[][3], int m2[][3]);
 

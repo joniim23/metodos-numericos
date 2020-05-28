@@ -7,6 +7,7 @@
 #include "../Include/biseccion.h"
 #include "../Include/funciones_aux.h"
 #include "../Include/menu.h"
+#include "../Include/jacobi.h"
 
 using namespace std;
 
@@ -22,17 +23,7 @@ int main() {
 		ingresar_valores_iniciales(&x0, &x1, &epsilon, &w);
 		variante_de_biseccion(x0, x1, epsilon, w);
 	} else {
-		int matr[3][3];
-		ingresarMatriz(matr);
-		imprimirMatriz(matr);
-		if (!esDiagonalDominante(matr))
-			transformarADiagonalDominante(matr);
-		/*
-		if (esDiagonalDominante(matr))
-			armarEcuacionJacobi;
-		; */
-
-//		esDiagonalDominante(matr);
+		jacobi();
 	}
 
 

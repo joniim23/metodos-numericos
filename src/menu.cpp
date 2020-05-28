@@ -1,9 +1,4 @@
 #include <iostream>
-#ifdef __linux__
-#include <curses.h>
-#else
-#include <conio.h>
-#endif
 
 using namespace std;
 
