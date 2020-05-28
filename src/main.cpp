@@ -6,6 +6,7 @@
 #endif
 #include "../Include/biseccion.h"
 #include "../Include/funciones_aux.h"
+#include "../Include/menu.h"
 
 using namespace std;
 
@@ -13,7 +14,28 @@ int main() {
 
 	float x0 = 0, x1 = 0, epsilon = 0, w = 0;
 
-	ingresar_valores_iniciales(&x0, &x1, &epsilon, &w);
+	int opcion = 0;
+
+	opcion = menu(opcion);
+
+	if (opcion == 1) {
+		ingresar_valores_iniciales(&x0, &x1, &epsilon, &w);
+		variante_de_biseccion(x0, x1, epsilon, w);
+	} else {
+		int matr[3][3];
+		ingresarMatriz(matr);
+		imprimirMatriz(matr);
+		if (!esDiagonalDominante(matr))
+			transformarADiagonalDominante(matr);
+		/*
+		if (esDiagonalDominante(matr))
+			armarEcuacionJacobi;
+		; */
+
+//		esDiagonalDominante(matr);
+	}
+
+
 
 	/*
 	cout << "Obtuve los siguientes valores" << endl;
@@ -25,8 +47,7 @@ int main() {
 	cout << "Se utilizara la formula '3 * cos(x) + 2'" << endl;
 	*/
 
-	variante_de_biseccion(x0, x1, epsilon, w);
 
-	getch();
+//	getch();
 	return 0;
 }

@@ -80,3 +80,192 @@ void imprimirValoresIteracion(int const iteracionActual, float const x0, float c
 
 	cout << "Iteracion Actual = " << iteracionActual << " | X0 = " << x0 << " | X1 = " << x1 << " | xAuxiliar = " << xAux << " | funcion(xAux) = " << funcionDeXAux << endl;
 }
+
+void ingresarMatriz(int matr[3][3]) {
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			cout << "Ingresar valor para " << "matr[" << i << "][" << j << "]" << endl;
+			cin >> matr[i][j];
+		}
+	}
+}
+
+void imprimirMatriz(int matr[3][3]) {
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			cout << "matr[" << i << "][" << j << "] = " << matr[i][j] << endl;
+		}
+	}
+}
+
+/*
+ * 3 2 1
+ * 4 6 5
+ * 7 8 9
+ *
+ * 3 3 2
+ * 4 4 3
+ * 2 2 2
+ *
+ * 4 3 3
+ * 4 4 3
+ * 2 2 2
+ */
+
+/*
+ * Una matriz no es dominante cuando:
+ * 1. El valorDominante no es el mayor de la fila
+ * 2. El valorDominante nunca es el mayor en ninguna fila
+ */
+bool esDiagonalDominante(int matr[3][3]) {
+	bool esDominante = true;
+	int contadorDominante = 0;
+
+
+	for (int i = 0; i < 3 && esDominante; i++) {
+		int valorDominante = abs(matr[i][i]);
+		int mayorEnFila = -1;
+
+		for (int j = 0; j < 3 && esDominante; j++) {
+			int valorActual = abs(matr[i][j]);
+
+			if (i != j) {
+				if (valorDominante < valorActual)
+					esDominante = false;
+
+				if (valorActual > mayorEnFila)
+					mayorEnFila = valorActual;
+
+				if(valorDominante > mayorEnFila)
+					contadorDominante ++;
+			}
+
+		}
+	}
+
+	if ( 0 >= contadorDominante )
+		esDominante = false;
+
+	if (esDominante)
+		cout << "La matriz es dominante" << endl;
+	else
+		cout << "La matriz NO es dominante" << endl;
+
+	return esDominante;
+}
+
+struct EstructuraMayor {
+	int columnaDondeEstaElMayor;
+	bool esMayorDeLaFila;
+};
+
+void intercambiarFilas(int matr[3][3], EstructuraMayor vectorColumnaDondeEstaElMayorEnCadaFila[3]) {
+
+	int contador=0;
+	int vectorBackup[3];
+
+	// Verificamos que haya por lo menos un valor mayor en todas las filas
+	{
+		for(int i = 0; i < 3; i++) {
+			if (vectorColumnaDondeEstaElMayorEnCadaFila[i].esMayorDeLaFila)
+				contador++;
+		}
+
+		if (contador == 0)
+			cout << "No se puede intercambiar";
+	}
+
+	for (int k = 0; k < 3; k++) {
+
+		int filaDondeTieneQueEstarElMayor = vectorColumnaDondeEstaElMayorEnCadaFila[k].columnaDondeEstaElMayor;
+		int mayorEnFila = -1;
+
+		if (filaDondeTieneQueEstarElMayor != k){
+			for (int j = 0; j < 3; j++) {
+				//5 6 5
+				vectorBackup[j] = matr[filaDondeTieneQueEstarElMayor][j];
+				//4 4 5
+				matr[filaDondeTieneQueEstarElMayor][j] = matr[k][j];
+				//5 6 5
+				matr[k][j] = vectorBackup[j];
+
+				if (mayorEnFila < matr[k][j]) {
+					mayorEnFila = matr[k][j];
+					vectorColumnaDondeEstaElMayorEnCadaFila[k].columnaDondeEstaElMayor = j;
+				}
+			}
+		}
+	}
+
+}
+
+
+void transformarADiagonalDominante(int matr[3][3]) {
+
+	EstructuraMayor vectorMayorEnCadaFila[3];
+	bool hayRepetido = false;
+
+	//Llenar los vectores
+	for (int i = 0; i < 3 ; i++) {
+		int valorDominante = abs(matr[i][i]);
+		int mayorEnFila = -1;
+		int columnaDondeEstaElMayor = -1;
+		int contadorDeMayores = 0;
+
+		for (int j = 0; j < 3 ; j++) {
+			int valorActual = abs(matr[i][j]);
+
+			if (i != j) {
+				if (valorActual > mayorEnFila){
+					columnaDondeEstaElMayor = j;
+					mayorEnFila = valorActual;
+				}
+			}
+		}
+
+		for (int j = 0; j < 3; j++) {
+			int valorActual = abs(matr[i][j]);
+
+			if (valorActual == mayorEnFila)
+				contadorDeMayores++;
+		}
+
+		vectorMayorEnCadaFila[i].columnaDondeEstaElMayor = columnaDondeEstaElMayor;
+
+		if (contadorDeMayores == 1)
+			vectorMayorEnCadaFila[i].esMayorDeLaFila = true;
+		else
+			vectorMayorEnCadaFila[i].esMayorDeLaFila = false;
+
+	}
+
+
+	/*
+	if (sePuedenIntercambiarFilas(vectorFilasACambiar))
+		intercambiarFilas(matr, vectorFilasACambiar);
+		esDiagonalDominante(matr);
+	 */
+
+
+	esDiagonalDominante(matr);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
