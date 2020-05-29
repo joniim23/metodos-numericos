@@ -6,4 +6,4 @@ bool esDiagonalDominante(int matr[][col]);
 bool hayPorLoMenosUnMayor(EstructuraMayor vectorColumnaDondeEstaElMayorEnCadaFila[]);
 void intercambiarFilas(int matr[][col], int vect[]);
 void obtenerMatricesDeJacobi(int matr[][col]);
-void jacobi();
+int jacobi();

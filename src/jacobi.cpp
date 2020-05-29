@@ -6,6 +6,7 @@
 #endif
 #include <algorithm>
 #include "../Include/funciones_aux.h"
+#include "../Include/jacobi.h"
 
 using namespace std;
 
@@ -16,8 +17,6 @@ struct EstructuraMayor {
 
 bool debug = false;
 
-const int col = 3;
-const int fil = 3;
 int matr[fil][col];
 EstructuraMayor vectorMayorEnCadaFila[col];
 
