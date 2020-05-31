@@ -7,18 +7,18 @@
 #include <conio.h>
 #endif
 
-
 using namespace std;
 
 float funcionDeEquis(const float x) {
 	float valorDeRetorno = 0;
 
-	valorDeRetorno = (3*cos(x))+2;
+	valorDeRetorno = (3 * cos(x)) + 2;
 //	cout << "La funcion en '" << x << "' retorna el valor " << valorDeRetorno << endl;
 	return valorDeRetorno;
 }
 
-void ingresar_valores_iniciales(float * x0, float * x1, float * epsilon, float * w) {
+void ingresar_valores_iniciales(float *x0, float *x1, float *epsilon,
+		float *w) {
 
 	float funcionDeX0 = 0, funcionDeX1 = 0;
 	/**
@@ -44,16 +44,16 @@ void ingresar_valores_iniciales(float * x0, float * x1, float * epsilon, float *
 			cout << "Ingrese un valor X1" << endl;
 			cin >> *x1;
 
-			if(*x0 > *x1)
+			if (*x0 > *x1)
 				cout << "X1 debe ser mayor que X0" << endl;
 		} while (*x0 > *x1);
 
 		funcionDeX0 = funcionDeEquis(*x0);
 		funcionDeX1 = funcionDeEquis(*x1);
 
-		if ( funcionDeX0 * funcionDeX1 > 0)
+		if (funcionDeX0 * funcionDeX1 > 0)
 			cout << " f(x0) * f(x1) debe ser menor que 0" << endl;
-	} while ( funcionDeX0 * funcionDeX1 > 0);
+	} while (funcionDeX0 * funcionDeX1 > 0);
 
 	/**
 	 * Verificamos epsilon
@@ -62,7 +62,7 @@ void ingresar_valores_iniciales(float * x0, float * x1, float * epsilon, float *
 		cout << "Ingrese un valor epsilon" << endl;
 		cin >> *epsilon;
 
-		if ( *epsilon < 0 )
+		if (*epsilon < 0)
 			cout << "El valor epsilon debe ser mayor que 0" << endl;
 	} while (*epsilon < 0);
 }
@@ -76,23 +76,27 @@ int signo(float z) {
 		return -1;
 }
 
-void imprimirValoresIteracion(int const iteracionActual, float const x0, float const x1, float const xAux, float const funcionDeXAux) {
+void imprimirValoresIteracion(int const iteracionActual, float const x0,
+		float const x1, float const xAux, float const funcionDeXAux) {
 
-	cout << "Iteracion Actual = " << iteracionActual << " | X0 = " << x0 << " | X1 = " << x1 << " | xAuxiliar = " << xAux << " | funcion(xAux) = " << funcionDeXAux << endl;
+	cout << "Iteracion Actual = " << iteracionActual << " | X0 = " << x0
+			<< " | X1 = " << x1 << " | xAuxiliar = " << xAux
+			<< " | funcion(xAux) = " << funcionDeXAux << endl;
 }
 
-void ingresarMatriz(int matr[][3]) {
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-			cout << "Ingresar valor para " << "matr[" << i << "][" << j << "]" << endl;
+void ingresarMatriz(int nFil, int nCol, float matr[][10]) {
+	for (int i = 0; i < nFil; i++) {
+		for (int j = 0; j < nCol; j++) {
+			cout << "Ingresar valor para " << "matr[" << i << "][" << j << "]"
+					<< endl;
 			cin >> matr[i][j];
 		}
 	}
 }
 
-void imprimirMatriz(int matr[][3]) {
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
+void imprimirMatriz(int nFil, int nCol, float matr[][10]) {
+	for (int i = 0; i < nFil; i++) {
+		for (int j = 0; j < nCol; j++) {
 //			cout << "matr[" << i << "][" << j << "] = " << matr[i][j] << endl;
 			cout << matr[i][j] << " ";
 		}
@@ -114,9 +118,9 @@ void imprimirVector(int vect[]) {
  * @param m1
  * @param m2
  */
-void duplicarMatriz(int m1[][3], int m2[][3]) {
-	for (int i = 0; i < 3; i++)
-		for (int j = 0; j < 3; j++)
+void duplicarMatriz(int nFil, int nCol, float m1[][10], float m2[][10]) {
+	for (int i = 0; i < nFil; i++)
+		for (int j = 0; j < nCol; j++)
 			m2[i][j] = m1[i][j];
 }
 
@@ -129,4 +133,37 @@ void duplicarMatriz(int m1[][3], int m2[][3]) {
 void duplicarVector(int v1[], int v2[]) {
 	for (int i = 0; i < 3; i++)
 		v2[i] = v1[i];
+}
+
+void sumarMatrices(int nFil, int nCol, float m1[][10], float m2[][10], float mRet[][10]) {
+	for (int i = 0; i < nFil; i++)
+		for (int j = 0; j < nCol; j++)
+			mRet[i][j] = m1[i][j] + m2[i][j];
+}
+
+void invertirMatrizConDiagonal(int nFil, int nCol, float m1[][10], float mRet[][10]) {
+	for (int i = 0; i < nFil; i++)
+		for (int j = 0; j < nCol; j++)
+			if (0 != m1[i][j])
+				mRet[i][j] = 1 / m1[i][j];
+			else
+				mRet[i][j] = 0;
+}
+
+void negarMatriz(int nFil, int nCol, float m1[][10], float mRet[][10]) {
+	for (int i = 0; i < nFil; i++)
+		for (int j = 0; j < nCol; j++)
+			mRet[i][j] = m1[i][j] * (-1);
+}
+
+void multiplicarMatrices(int nFil, int nCol, float m1[][10], float m2[][10], float mRet[][10]) {
+	for (int i = 0; i < nFil; i++) {
+		for (int j = 0; j < nCol; j++) {
+			float sumaParcial = 0;
+			for (int k = 0; k < nFil; k++) {
+				sumaParcial = sumaParcial + ( m1[i][k] * m2[k][j] );
+			}
+			mRet[i][j] = sumaParcial;
+		}
+	}
 }

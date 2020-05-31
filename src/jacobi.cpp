@@ -17,21 +17,22 @@ struct EstructuraMayor {
 
 bool debug = false;
 
-int matr[fil][col];
+float matr[fil][10];
 EstructuraMayor vectorMayorEnCadaFila[col];
 
 /*
  * Matrices de Jacobi
  */
 
-int matrizL[fil][col];
-int matrizU[fil][col];
-int matrizLU[fil][col];
-int matrizB[fil][1];
-int matrizD1[fil][col];
-int matrizMenosD1[fil][col];
-int matrizV[fil][1];
-int matrizH[fil][col];
+float matrizL[fil][10];
+float matrizU[fil][10];
+float matrizLU[fil][10];
+float matrizB[fil][10];
+float matrizD[fil][10];
+float matrizInversaD[fil][10];
+float matrizMenosInversaD[fil][10];
+float matrizV[fil][10];
+float matrizH[fil][10];
 /*
  * Matrices de prueba
  */
@@ -39,18 +40,23 @@ int matrizH[fil][col];
 // 3 2 1
 // 4 6 5
 // 7 8 9
-int matrizDominante[fil][col] = {{3,2,1},{4,6,5},{7,8,9}};
+float matrizDominante[fil][10] = {{3,2,1},{4,6,5},{7,8,9}};
 
 
 //3 3 2
 //4 4 3
 //2 2 2
-int matrizImposibleDominante[fil][col] = {{3,3,2},{4,4,3},{2,2,2}};
+float matrizImposibleDominante[fil][10] = {{3,3,2},{4,4,3},{2,2,2}};
 
 //5 6 5
 //7 6 7
 //1 2 2
-int matrizPosibleDominante[fil][col] = {{5,6,5},{7,6,7},{1,2,2}};
+float matrizPosibleDominante[fil][10] = {{5,6,5},{7,6,7},{1,2,2}};
+
+//2 2 3
+//7 6 6
+//3 3 2
+float matrizPosibleDominante2[fil][10] = {{2,2,3},{7,6,6},{3,3,2}};
 
 
 
@@ -60,16 +66,16 @@ int matrizPosibleDominante[fil][col] = {{5,6,5},{7,6,7},{1,2,2}};
  * 1. El valorDominante es el mayor de la fila
  * 2. Existe al menos unico mayor valorDominante en cualquiera de las filas
  */
-bool esDiagonalDominante(int matr[][col]) {
+bool esDiagonalDominante(float matr[][10]) {
 	bool esDominante = true;
 	int contadorDominante = 0;
 
 
-	for (int i = 0; i < 3 && esDominante; i++) {
+	for (int i = 0; i < fil && esDominante; i++) {
 		int valorDominante = abs(matr[i][i]);
 		int mayorEnFila = -1;
 
-		for (int j = 0; j < 3 && esDominante; j++) {
+		for (int j = 0; j < col && esDominante; j++) {
 			int valorActual = abs(matr[i][j]);
 
 			if (i != j) {
@@ -103,7 +109,7 @@ bool esDiagonalDominante(int matr[][col]) {
 bool hayPorLoMenosUnMayor(EstructuraMayor vectorColumnaDondeEstaElMayorEnCadaFila[]) {
 	bool hayPorLoMenosUnMayor = false;
 
-	for(int i = 0; i < 3; i++) {
+	for(int i = 0; i < fil; i++) {
 		if (1 == vectorColumnaDondeEstaElMayorEnCadaFila[i].cantidadDeMayores)
 			hayPorLoMenosUnMayor = true;
 	}
@@ -112,13 +118,13 @@ bool hayPorLoMenosUnMayor(EstructuraMayor vectorColumnaDondeEstaElMayorEnCadaFil
 }
 
 
-void intercambiarFilas(int matr[][col], EstructuraMayor vectorColumnaDondeEstaElMayorEnCadaFila[]) {
+void intercambiarFilas(float matr[][10], EstructuraMayor vectorColumnaDondeEstaElMayorEnCadaFila[]) {
 	cout << endl;
 	int vectorBackup[col];
+	EstructuraMayor mayorDeFilaBackup;
 
 	for (int k = 0; k < col; k++) {
 		int filaDondeTieneQueEstarElMayor = vectorColumnaDondeEstaElMayorEnCadaFila[k].columnaDondeEstaElMayor;
-		int mayorEnFila = -1;
 
 		//Debugging
 		if(debug) {
@@ -151,12 +157,16 @@ void intercambiarFilas(int matr[][col], EstructuraMayor vectorColumnaDondeEstaEl
 
 				matr[k][j] = vectorBackup[j];
 
-				if (mayorEnFila < matr[k][j]) {
-					mayorEnFila = matr[k][j];
-					vectorColumnaDondeEstaElMayorEnCadaFila[k].columnaDondeEstaElMayor = j;
-				}
 			}
-			imprimirMatriz(matr);
+
+			/*
+			 * Cambiando la información entre las dos filas que estamos analizando
+			 */
+			mayorDeFilaBackup = vectorColumnaDondeEstaElMayorEnCadaFila[k];
+			vectorColumnaDondeEstaElMayorEnCadaFila[k] = vectorColumnaDondeEstaElMayorEnCadaFila[filaDondeTieneQueEstarElMayor];
+			vectorColumnaDondeEstaElMayorEnCadaFila[filaDondeTieneQueEstarElMayor] = mayorDeFilaBackup;
+
+			imprimirMatriz(fil, col, matr);
 		}
 	}
 
@@ -172,13 +182,13 @@ void intercambiarFilas(int matr[][col], EstructuraMayor vectorColumnaDondeEstaEl
  */
 void obtenerInformacionDeLasFilas(EstructuraMayor vectorMayorEnCadaFila[]) {
 
-	for (int i = 0; i < 3 ; i++) {
+	for (int i = 0; i < fil ; i++) {
 		int mayorEnFila = -1;
 		int columnaDondeEstaElMayor = -1;
 		int contadorDeMayores = 0;
 
 		//Obtengo el índice y el mayor de la fila
-		for (int j = 0; j < 3 ; j++) {
+		for (int j = 0; j < col ; j++) {
 			int valorActual = abs(matr[i][j]);
 
 			if (i != j) {
@@ -190,7 +200,7 @@ void obtenerInformacionDeLasFilas(EstructuraMayor vectorMayorEnCadaFila[]) {
 		}
 
 		//Verifico cuantos mayores hay en la fila
-		for (int j = 0; j < 3; j++) {
+		for (int j = 0; j < col; j++) {
 			int valorActual = abs(matr[i][j]);
 
 			if (valorActual == mayorEnFila)
@@ -205,14 +215,78 @@ void obtenerInformacionDeLasFilas(EstructuraMayor vectorMayorEnCadaFila[]) {
 	}
 }
 
-void obtenerMatricesDeJacobi(int matr[][col]) {
+void armarMatrizD(const float m[][10]) {
+	for (int i = 0; i < fil; i++) {
+		for (int j = 0; j < col; j++) {
+			if (i > j || i < j)
+				matrizD[i][j] = 0;
+			else
+				matrizD[i][j] = matr[i][j];
+		}
+	}
+}
 
+void armarMatrizU(const float m[][10]) {
+	for (int i = 0; i < fil; i++) {
+		for (int j = 0; j < col; j++) {
+			if (i >= j)
+				matrizU[i][j] = 0;
+			else
+				matrizU[i][j] = matr[i][j];
+		}
+	}
+}
+
+void armarMatrizL(const float m[][10]) {
+	for (int i = 0; i < fil; i++) {
+		for (int j = 0; j < col; j++) {
+			if (i <= j)
+				matrizL[i][j] = 0;
+			else
+				matrizL[i][j] = matr[i][j];
+		}
+	}
+}
+//1 2 3
+//4 5 6
+//7 8 9
+
+void armarEcuacionesJacobi() {
+	armarMatrizL(matr);
+	armarMatrizU(matr);
+	armarMatrizD(matr);
+	sumarMatrices(fil, col, matrizL, matrizU, matrizLU);
+	invertirMatrizConDiagonal(fil, col, matrizD, matrizInversaD);
+	negarMatriz(fil, col, matrizInversaD, matrizMenosInversaD);
+	multiplicarMatrices(fil, col, matrizMenosInversaD, matrizLU, matrizH);
+	cout << "Ingresar los valores para la matriz B" << endl;
+	ingresarMatriz(fil, 1, matrizB);
+	multiplicarMatrices(fil, 1, matrizInversaD, matrizB, matrizV);
+}
+
+void imprimirEcuacionesJacobi() {
+	cout << "Matriz L" << endl;
+	imprimirMatriz(fil, col, matrizL);
+	cout << "Matriz U" << endl;
+	imprimirMatriz(fil, col, matrizU);
+	cout << "Matriz D" << endl;
+	imprimirMatriz(fil, col, matrizD);
+	cout << "Matriz LU" << endl;
+	imprimirMatriz(fil, col, matrizLU);
+	cout << "Matriz D Inversa" << endl;
+	imprimirMatriz(fil, col, matrizInversaD);
+	cout << "Matriz - D Inversa" << endl;
+	imprimirMatriz(fil, col, matrizMenosInversaD);
+	cout << "Matriz H" << endl;
+	imprimirMatriz(fil, col, matrizH);
+	cout << "Matriz V" << endl;
+	imprimirMatriz(fil, 1, matrizV);
 }
 
 int jacobi() {
-//	ingresarMatriz(matr);
-	duplicarMatriz(matrizPosibleDominante, matr);
-	imprimirMatriz(matr);
+	ingresarMatriz(fil, col, matr);
+//	duplicarMatriz(fil, col, matrizPosibleDominante2, matr);
+	imprimirMatriz(fil, col, matr);
 
 	if (!esDiagonalDominante(matr)) {
 		obtenerInformacionDeLasFilas(vectorMayorEnCadaFila);
@@ -220,14 +294,14 @@ int jacobi() {
 
 		if(hayPorLoMenosUnMayor(vectorMayorEnCadaFila))
 			intercambiarFilas(matr, vectorMayorEnCadaFila);
-//
+
 		if(!esDiagonalDominante(matr)) {
 			cout << "Como ya intentamos transformar a diagonal dominante y no lo logramos, salimos del programa" << endl;
 			return -1;
 		}
 	}
-//		armarEcuacionJacobi;
-
+		armarEcuacionesJacobi();
+		imprimirEcuacionesJacobi();
 
 	return 0;
 }
